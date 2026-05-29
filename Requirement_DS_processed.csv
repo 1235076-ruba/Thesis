@@ -1,0 +1,32 @@
+﻿requirement,clean,segmentation
+The system must load pages quickly?,the system must load pages quickly,
+The user interface should be beautiful and modern.&,the user interface should be beautiful and modern.,
+The app must handle a lot of simultaneous users.*,the app must handle a lot of simultaneous users.,
+The search feature should be intuitive.,the search feature should be intuitive.,
+The system needs to be highly secure against hackers.,the system needs to be highly secure against hackers.,
+The checkout process should be as simple as possible.,the checkout process should be as simple as possible.,
+Errors should be handled gracefully.,errors should be handled gracefully.,
+The report should look good when printed.,the report should look good when printed.,
+The mobile app shouldn't drain too much battery.},the mobile app shouldn t drain too much battery.,
+The software must be easy for older adults to learn.,the software must be easy for older adults to learn.,
+"The system must fully render the dashboard page within 2.0 seconds of a user clicking the ""Home"" button under standard network conditions (100 Mbps)",the system must fully render the dashboard page within 2.0 seconds of a user clicking the home button under standard network conditions (100 mbps),
+"The user interface must strictly adhere to the company's approved FY2026 Style Guide, utilizing Helvetica font and the primary hex color #003366","the user interface must strictly adhere to the company s approved fy2026 style guide, utilizing helvetica font and the primary hex color 003366",
+"The system must maintain a response time under 500ms while supporting up to 10,000 concurrent active sessions.","the system must maintain a response time under 500ms while supporting up to 10,000 concurrent active sessions.",
+The search feature must return results matching the user's text query within 1.5 seconds and highlight the matching keywords in bold.,the search feature must return results matching the user s text query within 1.5 seconds and highlight the matching keywords in bold.,1) the search feature must return results matching the user s text query within 1.5 seconds in bold || 2) the search feature must highlight the matching keywords in bold
+"All user passwords must be hashed using bcrypt before being stored in the database, and all data in transit must use HTTPS.","all user passwords must be hashed using bcrypt before being stored in the database, and all data in transit must use https.",1) all user passwords must be hashed using bcrypt before being stored in the database in transit must use https || 2) all data in transit must use https
+"The checkout process must be completed in exactly three sequential steps: Shipping Address, Payment Method, and Order Review.","the checkout process must be completed in exactly three sequential steps: shipping address, payment method, and order review.",
+"When a network timeout occurs, the system must display an error message stating: ""Connection lost. Please check your internet and try again,"" without crashing the application.","when a network timeout occurs, the system must display an error message stating: connection lost. please check your internet and try again, without crashing the application.",
+The monthly sales report must be exportable into a standard A4-sized PDF format with 1-inch margins.,the monthly sales report must be exportable into a standard a4-sized pdf format with 1-inch margins.,
+The mobile application must consume less than 5% of the device's total battery capacity per hour of active background tracking.,the mobile application must consume less than 5 of the device s total battery capacity per hour of active background tracking.,
+A first-time user must be able to complete the onboarding tutorial and create their first project within 5 minutes without external assistance.,a firsttime user must be able to complete the onboarding tutorial and create their first project within 5 minutes without external assistance.,1) a firsttime user must be able to complete the onboarding tutorial within 5 minutes without external assistance || 2) a firsttime user must be able to create their first project within 5 minutes without external assistance
+Users must be able to reset their passwords,users must be able to reset their passwords,
+The system should send a notification when an order is shipped.,the system should send a notification when an order is shipped.,
+Premium users get a discount at checkout.,premium users get a discount at checkout.,
+The app must support uploading an avatar image.,the app must support uploading an avatar image.,
+The system must automatically log out inactive users.,the system must automatically log out inactive users.,
+Users can download their transaction history.,users can download their transaction history.,
+The system must validate the phone number field.,the system must validate the phone number field.,
+Managers can approve or reject timesheets.,managers can approve or reject timesheets.,1) managers can approve || 2) managers can reject timesheets
+The platform should restrict access to admin pages.,the platform should restrict access to admin pages.,
+The system must archive old support tickets.,the system must archive old support tickets.,
+The system must send a confirmation email to the user when they complete a purchase and update the inventory stock level in the database,the system must send a confirmation email to the user when they complete a purchase and update the inventory stock level in the database,1) the system must send a confirmation email to the user when they complete a purchase in the database || 2) the system must send a confirmation email to the user when they update the inventory stock level in the database
