@@ -1,0 +1,19 @@
+{
+  "label2id": {
+    "clear": 0,
+    "unclear": 1,
+    "incomplete": 2
+  },
+  "id2label": {
+    "0": "clear",
+    "1": "unclear",
+    "2": "incomplete"
+  },
+  "base_model": "ehsanaghaei/SecureBERT",
+  "labels": [
+    "clear",
+    "unclear",
+    "incomplete"
+  ],
+  "mode": "securebert_embedding_lr"
+}

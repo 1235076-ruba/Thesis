@@ -1,0 +1,8 @@
+{
+  "mode": "securebert_pair_lr",
+  "base_model": "ehsanaghaei/SecureBERT",
+  "encoder_dir": "C:\\Users\\PH-User\\Desktop\\Project\\models\\requirement_securebert",
+  "threshold": 0.75,
+  "positive_pairs": 6,
+  "negative_pairs": 180
+}

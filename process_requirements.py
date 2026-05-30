@@ -7,19 +7,29 @@ Segmentation is automatic and spaCy-driven:
      (must be able to X and Y; matrix verb + advcl with coordinated verb).
   3) Segment validation — invalid splits are rejected and the requirement stays atomic.
 
-Input:  .xlsx / .xls with a column of requirement text
-Output: CSV with columns: requirement, clean, segmentation
+Input:  .xlsx / .xls with requirement text (+ optional Classification labels for training)
+Output: CSV with columns: requirement_id, requirement, clean, segmentation,
+  classification, existing_conflict, predicted_conflict, conflict_confidence
 
 Install:
   pip install -r requirements.txt
   python -m spacy download en_core_web_sm
+  python train_classifier.py Requirement_DS.xlsx
 
 Usage:
   python process_requirements.py your.xlsx
   python process_requirements.py your.xlsx -o output.csv -c "Requirement text"
+  python process_requirements.py your.xlsx --train-classifier
 """
 
 from __future__ import annotations
+
+import os
+
+# Quiet HuggingFace background safetensors conversion (403 on SecureBERT repo).
+os.environ.setdefault("DISABLE_SAFETENSORS_CONVERSION", "1")
+os.environ.setdefault("TRANSFORMERS_VERBOSITY", "error")
+os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
 
 import argparse
 from datetime import datetime
@@ -496,9 +506,104 @@ def process_file(
     input_path: Path,
     output_path: Path,
     column: Optional[str] = None,
+    *,
+    model_dir: Optional[Path] = None,
+    conflict_model_dir: Optional[Path] = None,
+    train_classifier_first: bool = False,
+    train_conflict_first: bool = False,
 ) -> tuple[pd.DataFrame, Path]:
     nlp = load_nlp()
     df = read_excel(input_path)
+    root = Path(__file__).resolve().parent
+    resolved_model_dir = model_dir or (root / "models" / "requirement_securebert")
+    resolved_conflict_dir = conflict_model_dir or (
+        root / "models" / "requirement_conflict_securebert"
+    )
+
+    classifier = None
+    try:
+        from classify_requirements import (
+            detect_classification_column,
+            load_classifier,
+            train_classifier,
+        )
+
+        cls_col = detect_classification_column(df)
+
+        if train_classifier_first and cls_col is not None:
+            print("Training SecureBERT classifier on labeled rows...", file=sys.stderr)
+            result = train_classifier(input_path, resolved_model_dir)
+            print(
+                f"Classifier trained (val F1={result.val_f1_macro:.3f}) -> {result.model_dir}",
+                file=sys.stderr,
+            )
+
+        classifier = load_classifier(resolved_model_dir)
+    except FileNotFoundError as exc:
+        print(f"Warning: {exc}", file=sys.stderr)
+        print(
+            "Proceeding without classification. Run: python train_classifier.py",
+            file=sys.stderr,
+        )
+    except ImportError as exc:
+        print(
+            f"Warning: classification dependencies missing ({exc}). "
+            "Install ML packages from requirements.txt.",
+            file=sys.stderr,
+        )
+
+    conflict_detector = None
+    requirement_records = None
+    conflict_predictions: dict = {}
+    conflict_col = None
+    try:
+        from detect_conflicts import (
+            detect_conflict_column,
+            detect_requirement_id_column,
+            load_conflict_detector,
+            load_requirement_records,
+            train_conflict_detector,
+        )
+
+        conflict_col = detect_conflict_column(df)
+        id_col = detect_requirement_id_column(df)
+
+        if train_conflict_first and conflict_col is not None:
+            print(
+                "Training SecureBERT conflict detector on labeled pairs...",
+                file=sys.stderr,
+            )
+            c_result = train_conflict_detector(
+                input_path,
+                resolved_conflict_dir,
+                encoder_dir=resolved_model_dir,
+            )
+            print(
+                f"Conflict detector trained (F1={c_result.train_f1:.3f}, "
+                f"threshold={c_result.threshold:.2f}) -> {c_result.model_dir}",
+                file=sys.stderr,
+            )
+
+        if id_col is not None:
+            requirement_records, _, _, _ = load_requirement_records(input_path)
+            conflict_detector = load_conflict_detector(
+                resolved_conflict_dir, encoder_dir=resolved_model_dir
+            )
+            conflict_predictions = conflict_detector.predict_pairs(requirement_records)
+    except FileNotFoundError as exc:
+        if train_conflict_first or conflict_col is not None:
+            print(f"Warning: {exc}", file=sys.stderr)
+            print(
+                "Proceeding without conflict detection. Run: python train_conflict_detector.py",
+                file=sys.stderr,
+            )
+    except ImportError as exc:
+        print(
+            f"Warning: conflict detection dependencies missing ({exc}).",
+            file=sys.stderr,
+        )
+    except ValueError as exc:
+        print(f"Warning: {exc}", file=sys.stderr)
 
     req_col = column or detect_requirement_column(df)
     if req_col not in df.columns:
@@ -513,23 +618,78 @@ def process_file(
             file=sys.stderr,
         )
 
+    id_col_name = None
+    conflict_col_name = None
+    try:
+        from detect_conflicts import detect_conflict_column, detect_requirement_id_column
+
+        id_col_name = detect_requirement_id_column(df)
+        conflict_col_name = detect_conflict_column(df)
+    except ImportError:
+        pass
+
     rows = []
+    auto_id = 1
     for _, row in df.iterrows():
         original = row[req_col]
         if pd.isna(original) or not str(original).strip():
             continue
 
+        req_id = ""
+        if id_col_name and id_col_name in df.columns:
+            raw_id = row[id_col_name]
+            if pd.isna(raw_id) or not str(raw_id).strip():
+                req_id = f"REQ-AUTO-{auto_id:04d}"
+                auto_id += 1
+            else:
+                req_id = str(raw_id).strip()
+
+        existing_conflict = ""
+        if conflict_col_name and conflict_col_name in df.columns:
+            raw_conflict = row[conflict_col_name]
+            if not (pd.isna(raw_conflict) or not str(raw_conflict).strip()):
+                existing_conflict = str(raw_conflict).strip()
+
         cleaned = clean_text(original)
         segments = segment_requirement(str(original), nlp)
+        classification = ""
+        if classifier is not None:
+            classification = classifier.predict_one(str(original).strip())
+
+        predicted_conflict = ""
+        conflict_confidence = ""
+        if req_id and conflict_predictions:
+            hit = conflict_predictions.get(req_id)
+            if hit is not None:
+                predicted_conflict = hit.predicted_conflict_with
+                conflict_confidence = f"{hit.confidence:.3f}"
+
         rows.append(
             {
+                "requirement_id": req_id,
                 "requirement": str(original).strip(),
                 "clean": cleaned,
                 "segmentation": format_segmentation(segments),
+                "classification": classification,
+                "existing_conflict": existing_conflict,
+                "predicted_conflict": predicted_conflict,
+                "conflict_confidence": conflict_confidence,
             }
         )
 
-    out_df = pd.DataFrame(rows, columns=["requirement", "clean", "segmentation"])
+    out_df = pd.DataFrame(
+        rows,
+        columns=[
+            "requirement_id",
+            "requirement",
+            "clean",
+            "segmentation",
+            "classification",
+            "existing_conflict",
+            "predicted_conflict",
+            "conflict_confidence",
+        ],
+    )
     actual_output_path = output_path
     try:
         out_df.to_csv(output_path, index=False, encoding="utf-8-sig")
@@ -547,7 +707,7 @@ def process_file(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Clean and segment requirements from Excel to CSV."
+        description="Clean, segment, and classify requirements from Excel to CSV."
     )
     parser.add_argument("input", type=Path, help="Input Excel file (.xlsx or .xls)")
     parser.add_argument(
@@ -564,6 +724,28 @@ def main() -> None:
         default=None,
         help="Name of the column containing requirements",
     )
+    parser.add_argument(
+        "--model-dir",
+        type=Path,
+        default=None,
+        help="Path to fine-tuned SecureBERT classifier directory",
+    )
+    parser.add_argument(
+        "--train-classifier",
+        action="store_true",
+        help="Retrain SecureBERT on labeled Classification column before processing",
+    )
+    parser.add_argument(
+        "--conflict-model-dir",
+        type=Path,
+        default=None,
+        help="Path to trained SecureBERT conflict detector directory",
+    )
+    parser.add_argument(
+        "--train-conflict-detector",
+        action="store_true",
+        help="Retrain conflict detector on Existing conflict column before processing",
+    )
     args = parser.parse_args()
 
     input_path: Path = args.input
@@ -575,7 +757,15 @@ def main() -> None:
         f"{input_path.stem}_processed.csv"
     )
 
-    result, actual_output_path = process_file(input_path, output_path, args.column)
+    result, actual_output_path = process_file(
+        input_path,
+        output_path,
+        args.column,
+        model_dir=args.model_dir,
+        conflict_model_dir=args.conflict_model_dir,
+        train_classifier_first=args.train_classifier,
+        train_conflict_first=args.train_conflict_detector,
+    )
     print(f"Processed {len(result)} requirements -> {actual_output_path}")
 
 

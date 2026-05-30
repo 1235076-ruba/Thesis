@@ -1,32 +1,48 @@
-﻿requirement,clean,segmentation
-The system must load pages quickly?,the system must load pages quickly,
-The user interface should be beautiful and modern.&,the user interface should be beautiful and modern.,
-The app must handle a lot of simultaneous users.*,the app must handle a lot of simultaneous users.,
-The search feature should be intuitive.,the search feature should be intuitive.,
-The system needs to be highly secure against hackers.,the system needs to be highly secure against hackers.,
-The checkout process should be as simple as possible.,the checkout process should be as simple as possible.,
-Errors should be handled gracefully.,errors should be handled gracefully.,
-The report should look good when printed.,the report should look good when printed.,
-The mobile app shouldn't drain too much battery.},the mobile app shouldn t drain too much battery.,
-The software must be easy for older adults to learn.,the software must be easy for older adults to learn.,
-"The system must fully render the dashboard page within 2.0 seconds of a user clicking the ""Home"" button under standard network conditions (100 Mbps)",the system must fully render the dashboard page within 2.0 seconds of a user clicking the home button under standard network conditions (100 mbps),
-"The user interface must strictly adhere to the company's approved FY2026 Style Guide, utilizing Helvetica font and the primary hex color #003366","the user interface must strictly adhere to the company s approved fy2026 style guide, utilizing helvetica font and the primary hex color 003366",
-"The system must maintain a response time under 500ms while supporting up to 10,000 concurrent active sessions.","the system must maintain a response time under 500ms while supporting up to 10,000 concurrent active sessions.",
-The search feature must return results matching the user's text query within 1.5 seconds and highlight the matching keywords in bold.,the search feature must return results matching the user s text query within 1.5 seconds and highlight the matching keywords in bold.,1) the search feature must return results matching the user s text query within 1.5 seconds in bold || 2) the search feature must highlight the matching keywords in bold
-"All user passwords must be hashed using bcrypt before being stored in the database, and all data in transit must use HTTPS.","all user passwords must be hashed using bcrypt before being stored in the database, and all data in transit must use https.",1) all user passwords must be hashed using bcrypt before being stored in the database in transit must use https || 2) all data in transit must use https
-"The checkout process must be completed in exactly three sequential steps: Shipping Address, Payment Method, and Order Review.","the checkout process must be completed in exactly three sequential steps: shipping address, payment method, and order review.",
-"When a network timeout occurs, the system must display an error message stating: ""Connection lost. Please check your internet and try again,"" without crashing the application.","when a network timeout occurs, the system must display an error message stating: connection lost. please check your internet and try again, without crashing the application.",
-The monthly sales report must be exportable into a standard A4-sized PDF format with 1-inch margins.,the monthly sales report must be exportable into a standard a4-sized pdf format with 1-inch margins.,
-The mobile application must consume less than 5% of the device's total battery capacity per hour of active background tracking.,the mobile application must consume less than 5 of the device s total battery capacity per hour of active background tracking.,
-A first-time user must be able to complete the onboarding tutorial and create their first project within 5 minutes without external assistance.,a firsttime user must be able to complete the onboarding tutorial and create their first project within 5 minutes without external assistance.,1) a firsttime user must be able to complete the onboarding tutorial within 5 minutes without external assistance || 2) a firsttime user must be able to create their first project within 5 minutes without external assistance
-Users must be able to reset their passwords,users must be able to reset their passwords,
-The system should send a notification when an order is shipped.,the system should send a notification when an order is shipped.,
-Premium users get a discount at checkout.,premium users get a discount at checkout.,
-The app must support uploading an avatar image.,the app must support uploading an avatar image.,
-The system must automatically log out inactive users.,the system must automatically log out inactive users.,
-Users can download their transaction history.,users can download their transaction history.,
-The system must validate the phone number field.,the system must validate the phone number field.,
-Managers can approve or reject timesheets.,managers can approve or reject timesheets.,1) managers can approve || 2) managers can reject timesheets
-The platform should restrict access to admin pages.,the platform should restrict access to admin pages.,
-The system must archive old support tickets.,the system must archive old support tickets.,
-The system must send a confirmation email to the user when they complete a purchase and update the inventory stock level in the database,the system must send a confirmation email to the user when they complete a purchase and update the inventory stock level in the database,1) the system must send a confirmation email to the user when they complete a purchase in the database || 2) the system must send a confirmation email to the user when they update the inventory stock level in the database
+﻿requirement_id,requirement,clean,segmentation,classification,existing_conflict,predicted_conflict,conflict_confidence
+REQ-00001,The system must load pages quickly?,the system must load pages quickly,,unclear,,,
+REQ-00002,The user interface should be beautiful and modern.&,the user interface should be beautiful and modern.,,unclear,,,
+REQ-00003,The app must handle a lot of simultaneous users.*,the app must handle a lot of simultaneous users.,,unclear,,,
+REQ-00004,The search feature should be intuitive.,the search feature should be intuitive.,,unclear,,,
+REQ-00005,The system needs to be highly secure against hackers.,the system needs to be highly secure against hackers.,,unclear,,,
+REQ-00006,The checkout process should be as simple as possible.,the checkout process should be as simple as possible.,,unclear,,,
+REQ-00007,Errors should be handled gracefully.,errors should be handled gracefully.,,unclear,,,
+REQ-00008,The report should look good when printed.,the report should look good when printed.,,unclear,,,
+REQ-00009,The mobile app shouldn't drain too much battery.},the mobile app shouldn t drain too much battery.,,unclear,,,
+REQ-00010,The software must be easy for older adults to learn.,the software must be easy for older adults to learn.,,unclear,,,
+REQ-00011,"The system must fully render the dashboard page within 2.0 seconds of a user clicking the ""Home"" button under standard network conditions (100 Mbps)",the system must fully render the dashboard page within 2.0 seconds of a user clicking the home button under standard network conditions (100 mbps),,clear,,,
+REQ-00012,"The user interface must strictly adhere to the company's approved FY2026 Style Guide, utilizing Helvetica font and the primary hex color #003366","the user interface must strictly adhere to the company s approved fy2026 style guide, utilizing helvetica font and the primary hex color 003366",,clear,,,
+REQ-00013,"The system must maintain a response time under 500ms while supporting up to 10,000 concurrent active sessions.","the system must maintain a response time under 500ms while supporting up to 10,000 concurrent active sessions.",,clear,,,
+REQ-00014,The search feature must return results matching the user's text query within 1.5 seconds and highlight the matching keywords in bold.,the search feature must return results matching the user s text query within 1.5 seconds and highlight the matching keywords in bold.,1) the search feature must return results matching the user s text query within 1.5 seconds || 2) the search feature must highlight the matching keywords in bold,clear,,,
+REQ-00015,"All user passwords must be hashed using bcrypt before being stored in the database, and all data in transit must use HTTPS.","all user passwords must be hashed using bcrypt before being stored in the database, and all data in transit must use https.",1) all user passwords must be hashed using bcrypt before being stored in the database || 2) all data in transit must use https,clear,,,
+REQ-00016,"The checkout process must be completed in exactly three sequential steps: Shipping Address, Payment Method, and Order Review.","the checkout process must be completed in exactly three sequential steps: shipping address, payment method, and order review.",,clear,,,
+REQ-00017,"When a network timeout occurs, the system must display an error message stating: ""Connection lost. Please check your internet and try again,"" without crashing the application.","when a network timeout occurs, the system must display an error message stating: connection lost. please check your internet and try again, without crashing the application.",,clear,,,
+REQ-00018,The monthly sales report must be exportable into a standard A4-sized PDF format with 1-inch margins.,the monthly sales report must be exportable into a standard a4-sized pdf format with 1-inch margins.,,clear,,,
+REQ-00019,The mobile application must consume less than 5% of the device's total battery capacity per hour of active background tracking.,the mobile application must consume less than 5 of the device s total battery capacity per hour of active background tracking.,,clear,,REQ-00038,0.795
+REQ-00020,A first-time user must be able to complete the onboarding tutorial and create their first project within 5 minutes without external assistance.,a firsttime user must be able to complete the onboarding tutorial and create their first project within 5 minutes without external assistance.,1) a firsttime user must be able to complete the onboarding tutorial within 5 minutes without external assistance || 2) a firsttime user must be able to create their first project within 5 minutes without external assistance,clear,,,
+REQ-00021,Users must be able to reset their passwords,users must be able to reset their passwords,,incomplete,,,
+REQ-00022,The system should send a notification when an order is shipped.,the system should send a notification when an order is shipped.,,incomplete,,,
+REQ-00023,Premium users get a discount at checkout.,premium users get a discount at checkout.,,incomplete,,,
+REQ-00024,The app must support uploading an avatar image.,the app must support uploading an avatar image.,,incomplete,,,
+REQ-00025,The system must automatically log out inactive users.,the system must automatically log out inactive users.,,incomplete,,,
+REQ-00026,Users can download their transaction history.,users can download their transaction history.,,incomplete,,,
+REQ-00027,The system must validate the phone number field.,the system must validate the phone number field.,,incomplete,,,
+REQ-00028,Managers can approve or reject timesheets.,managers can approve or reject timesheets.,1) managers can approve || 2) managers can reject timesheets,incomplete,,,
+REQ-00029,The platform should restrict access to admin pages.,the platform should restrict access to admin pages.,,incomplete,,,
+REQ-00030,The system must archive old support tickets.,the system must archive old support tickets.,,incomplete,,,
+REQ-00031,The system must send a confirmation email to the user when they complete a purchase and update the inventory stock level in the database,the system must send a confirmation email to the user when they complete a purchase and update the inventory stock level in the database,1) the system must send a confirmation email to the user when they complete a purchase in the database || 2) the system must update the inventory stock level in the database,incomplete,,,
+REQ-00032,The database must complete daily backup replication to the secondary server within 60 minutes of initiation at 02:00 UTC.,the database must complete daily backup replication to the secondary server within 60 minutes of initiation at 02:00 utc.,,clear,,,
+REQ-00033,The authentication system must permanently lock a user account after 3 consecutive failed login attempts within a 15-minute window.,the authentication system must permanently lock a user account after 3 consecutive failed login attempts within a 15-minute window.,,clear,,,
+REQ-00034,The application interface should look highly professional and load all elements almost instantly.,the application interface should look highly professional and load all elements almost instantly.,1) the application interface should look highly professional || 2) the application interface should load all elements almost instantly,unclear,,,
+REQ-00035,The backend infrastructure needs to be robust and highly scalable to handle massive amounts of traffic.,the backend infrastructure needs to be robust and highly scalable to handle massive amounts of traffic.,,unclear,,,
+REQ-00036,The system must automatically send an emergency alert to the administrator whenever a potential security threat is detected.,the system must automatically send an emergency alert to the administrator whenever a potential security threat is detected.,,incomplete,,,
+REQ-00037,Users must be able to export their account billing transaction history from the settings page.,users must be able to export their account billing transaction history from the settings page.,,incomplete,,,
+REQ-00038,"The mobile application must continuously stream high-fidelity, uncompressed telemetry and video logs to the central server every 10 seconds during active background tracking.","the mobile application must continuously stream highfidelity, uncompressed telemetry and video logs to the central server every 10 seconds during active background tracking.",,clear,REQ-00019,REQ-00019,0.795
+REQ-00039,Customer support agents must be able to view a user's current password in the admin portal to assist users who call in with login difficulties.,customer support agents must be able to view a user s current password in the admin portal to assist users who call in with login difficulties.,,clear,REQ-00015,REQ-00015,0.795
+REQ-00040,The local device log database size must not exceed 10 MB,the local device log database size must not exceed 10 mb,,clear,,REQ-00041,0.803
+REQ-00041,The system must record raw camera snapshots locally every 1 second.,the system must record raw camera snapshots locally every 1 second.,,clear,REQ-00040,REQ-00040,0.803
+REQ-00042,The system background must be pure white.,the system background must be pure white.,,unclear,,REQ-00043,0.803
+REQ-00043,The system background must be pure black.,the system background must be pure black.,,unclear,REQ-00042,REQ-00042,0.803
+REQ-00044,Only administrators can view the salary table,only administrators can view the salary table,,incomplete,,REQ-00045,0.775
+REQ-00045,All employees must be able to view the salary table.,all employees must be able to view the salary table.,,incomplete,REQ-00044,REQ-00044,0.775
+REQ-00046,The application must operate completely offline with no network access.,the application must operate completely offline with no network access.,,clear,,REQ-00047,0.781
+REQ-00047,The app must sync data to the cloud database in real-time.,the app must sync data to the cloud database in realtime.,,clear,REQ-00046,,
